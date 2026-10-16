@@ -620,14 +620,16 @@
       </section>
     </main>
 
-    <footer>
+    <footer class="site-footer">
       <div class="container footer-inner">
-        <div class="footer-brand">
-          ElevARTE
+        <a class="footer-brand" href="#inicio" aria-label="ElevARTE, inicio">
+          <span class="footer-brand-name">
+            ElevARTE<span class="footer-brand-dot">.</span>
+          </span>
           <small>DANZA &amp; ARTE</small>
-        </div>
+        </a>
 
-        <p>
+        <p class="footer-copyright">
           © <span id="year"></span> ElevARTE Danza &amp; Arte. Todos los
           derechos reservados.
         </p>
@@ -638,7 +640,24 @@
           <a href="terminos.html">Términos y condiciones</a>
         </nav>
 
-        <a class="backtop" href="#inicio">Volver arriba ↑</a>
+        <a class="backtop" href="#inicio">
+          Volver arriba <span aria-hidden="true">↑</span>
+        </a>
+
+        <div class="footer-bottom">
+          <p class="footer-location">Pocito, San Juan, Argentina</p>
+
+          <p class="footer-credit">
+            Desarrollado por
+            <a
+              href="https://www.instagram.com/florecestudio.ar?utm_source=ig_web_button_share_sheet&rpxt=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visitar Instagram de Florece Studio"
+              >@florecestudio.ar <span aria-hidden="true">↗</span></a
+            >
+          </p>
+        </div>
       </div>
     </footer>
   </body>
