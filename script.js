@@ -2,13 +2,9 @@
 // CONFIGURACIÓN DE ELEV ARTE
 // ============================================
 
-// Reemplazá este valor por el WhatsApp real del instituto.
-// Formato: código de país + área + número, sin +, espacios ni guiones.
-// Ejemplo ficticio: "5492641234567".
 const WHATSAPP_NUMBER = "5490000000000";
 
-// Reemplazá por el enlace real del Instagram de ElevARTE.
-const INSTAGRAM_URL = "https://instagram.com/";
+const INSTAGRAM_URL = "https://www.instagram.com/elevarte.danzayarte?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw==";
 
 
 // ============================================
