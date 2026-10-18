@@ -1506,6 +1506,7 @@ blockquote em,
   color: var(--salmon);
 }
 
+
 /* REVELADO AL HACER SCROLL */
 
 .reveal {
@@ -1516,10 +1517,23 @@ blockquote em,
     transform 750ms var(--ease);
 }
 
-.reveal.is-visible {
+/* Solo ocultar elementos cuando JavaScript está activo */
+.js-motion .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.js-motion .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Sin JavaScript, el contenido permanece visible */
+html:not(.js-motion) .reveal {
+  opacity: 1;
+  transform: none;
+}
+
 
 /* CURSOR PERSONALIZADO: SOLO ESCRITORIO */
 

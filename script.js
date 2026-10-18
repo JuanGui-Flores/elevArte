@@ -244,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
   // ------------------------------------------------
   // ANIMACIONES AL HACER SCROLL
   // ------------------------------------------------
@@ -252,68 +253,57 @@ document.addEventListener("DOMContentLoaded", () => {
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  const revealSelectors = [
+  // Incluye los elementos actuales del HTML y los que ya tienen .reveal.
+  const revealElements = document.querySelectorAll([
+    ".reveal",
     ".hero-copy",
-    ".hero-art",
-    ".intro-panel",
+    ".hero-side-note",
     ".intro-copy",
-    ".section-head",
+    ".section-heading",
     ".class-card",
-    ".schedule-card",
-    ".quote .container",
-    ".step",
+    ".schedule-item",
+    ".quote-inner",
     ".contact-copy",
     ".contact-card",
-    ".local-info-content article"
-  ];
+    ".location-copy",
+    ".location-visual"
+  ].join(", "));
 
-  const revealElements = document.querySelectorAll(
-    revealSelectors.join(", ")
-  );
-
-  if (reducedMotion || !("IntersectionObserver" in window)) {
+  if (
+    reducedMotion ||
+    !("IntersectionObserver" in window)
+  ) {
     revealElements.forEach((element) => {
-      element.classList.add("is-visible");
+      element.classList.add("reveal", "is-visible");
     });
-  } else if (revealElements.length > 0) {
-    document.documentElement.classList.add("js-motion");
+  } else {
+    // Evita ocultar el contenido si no hay elementos para observar.
+    if (revealElements.length > 0) {
+      document.documentElement.classList.add("js-motion");
 
-    revealElements.forEach((element) => {
-      element.classList.add("reveal");
+      revealElements.forEach((element) => {
+        element.classList.add("reveal");
+      });
 
-      const isCard = element.matches(
-        ".class-card, .schedule-card, .step"
+      const observer = new IntersectionObserver(
+        (entries, currentObserver) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("is-visible");
+            currentObserver.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: "0px 0px -45px 0px"
+        }
       );
 
-      if (isCard && element.parentElement) {
-        const siblings = Array.from(element.parentElement.children);
-        const position = siblings.indexOf(element);
-
-        element.style.setProperty(
-          "--reveal-delay",
-          `${Math.max(position, 0) * 100}ms`
-        );
-      }
-    });
-
-    const observer = new IntersectionObserver(
-      (entries, currentObserver) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          entry.target.classList.add("is-visible");
-          currentObserver.unobserve(entry.target);
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: "0px 0px -45px 0px"
-      }
-    );
-
-    revealElements.forEach((element) => {
-      observer.observe(element);
-    });
+      revealElements.forEach((element) => {
+        observer.observe(element);
+      });
+    }
   }
 
   // ------------------------------------------------
@@ -400,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
         target instanceof Element &&
         target.closest(interactiveSelector)
       ) {
-        ring.classList.add("is-active");
+        ring.classList.add("is-hovering");
       }
     });
 
@@ -419,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
           interactiveElement.contains(relatedTarget)
         )
       ) {
-        ring.classList.remove("is-active");
+        ring.classList.remove("is-hovering");
       }
     });
   }
