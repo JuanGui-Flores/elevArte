@@ -1,131 +1,223 @@
-// ============================================
+
+"use strict";
+
+// ==================================================
 // CONFIGURACIÓN DE ELEV ARTE
-// ============================================
+// ==================================================
 
 const WHATSAPP_NUMBER = "5490000000000";
+const INSTAGRAM_URL = "https://www.instagram.com/elevarte.danzayarte/";
 
-const INSTAGRAM_URL = "https://www.instagram.com/elevarte.danzayarte?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw==";
+// ==================================================
+// INICIALIZACIÓN
+// ==================================================
 
+document.addEventListener("DOMContentLoaded", () => {
+  // ------------------------------------------------
+  // AÑO AUTOMÁTICO EN EL PIE DE PÁGINA
+  // ------------------------------------------------
 
-// ============================================
-// MENÚ PARA CELULARES
-// ============================================
+  const yearElement = document.getElementById("year");
 
-const menuBtn = document.getElementById("menuBtn");
-const navLinks = document.getElementById("navLinks");
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
+  }
 
-if (menuBtn && navLinks) {
-  menuBtn.addEventListener("click", () => {
-    const isOpen = navLinks.classList.toggle("open");
+  // ------------------------------------------------
+  // ENLACE DE INSTAGRAM
+  // ------------------------------------------------
 
-    menuBtn.setAttribute("aria-expanded", String(isOpen));
-    menuBtn.setAttribute(
-      "aria-label",
-      isOpen ? "Cerrar menú" : "Abrir menú"
-    );
+  const instagramLink = document.getElementById("instagramLink");
 
-    menuBtn.textContent = isOpen ? "×" : "☰";
-  });
+  if (instagramLink) {
+    instagramLink.href = INSTAGRAM_URL;
+    instagramLink.target = "_blank";
+    instagramLink.rel = "noopener noreferrer";
+  }
 
-  // Cierra el menú cuando se selecciona una sección.
-  navLinks.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("open");
+  // ------------------------------------------------
+  // MENÚ PARA CELULARES
+  // ------------------------------------------------
 
-      menuBtn.setAttribute("aria-expanded", "false");
-      menuBtn.setAttribute("aria-label", "Abrir menú");
+  const menuBtn = document.getElementById("menuBtn");
+  const navLinks = document.getElementById("navLinks");
 
-      menuBtn.textContent = "☰";
-    });
-  });
-}
+  function closeMenu() {
+    if (!menuBtn || !navLinks) return;
 
+    navLinks.classList.remove("open", "is-open");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.setAttribute("aria-label", "Abrir menú");
+    menuBtn.textContent = "☰";
+    document.body.classList.remove("menu-open");
+  }
 
-// ============================================
-// AÑO AUTOMÁTICO EN EL PIE DE PÁGINA
-// ============================================
-
-const yearElement = document.getElementById("year");
-
-if (yearElement) {
-  yearElement.textContent = new Date().getFullYear();
-}
-
-
-// ============================================
-// ENLACE DE INSTAGRAM
-// ============================================
-
-const instagramLink = document.getElementById("instagramLink");
-
-if (instagramLink) {
-  instagramLink.href = INSTAGRAM_URL;
-}
-
-
-// ============================================
-// FORMULARIO DE CONSULTAS E INSCRIPCIÓN
-// ============================================
-
-const enrollmentForm = document.getElementById("enrollmentForm");
-
-if (enrollmentForm) {
-  enrollmentForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-
-    // Verifica los campos obligatorios.
-    if (!form.reportValidity()) {
-      return;
-    }
-
-    // Evita intentar enviar a un número de ejemplo.
-    if (
-      !/^\d{10,15}$/.test(WHATSAPP_NUMBER) ||
-      WHATSAPP_NUMBER === "5490000000000"
-    ) {
-      alert(
-        "Primero configurá el número real de WhatsApp de ElevARTE " +
-        "en la constante WHATSAPP_NUMBER del archivo script.js."
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener("click", () => {
+      const isOpen = !(
+        navLinks.classList.contains("open") ||
+        navLinks.classList.contains("is-open")
       );
 
-      return;
+      navLinks.classList.toggle("open", isOpen);
+      navLinks.classList.toggle("is-open", isOpen);
+
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+      menuBtn.setAttribute(
+        "aria-label",
+        isOpen ? "Cerrar menú" : "Abrir menú"
+      );
+
+      menuBtn.textContent = isOpen ? "×" : "☰";
+      document.body.classList.toggle("menu-open", isOpen);
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Cerrar el menú con Escape.
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+
+    // Cerrar el menú si se cambia a una pantalla grande.
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 800) {
+        closeMenu();
+      }
+    });
+  }
+
+  // ------------------------------------------------
+  // EFECTO DEL ENCABEZADO AL DESPLAZARSE
+  // ------------------------------------------------
+
+  const header = document.querySelector("header");
+
+  function updateHeader() {
+    if (!header) return;
+
+    header.classList.toggle("is-scrolled", window.scrollY > 20);
+  }
+
+  updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
+
+  // ------------------------------------------------
+  // FORMULARIO DE CONSULTAS E INSCRIPCIÓN
+  // ------------------------------------------------
+
+  const enrollmentForm = document.getElementById("enrollmentForm");
+
+  if (enrollmentForm) {
+    let formStatus = document.getElementById("formStatus");
+
+    // Crear un área de estado accesible si no existe en el HTML.
+    if (!formStatus) {
+      formStatus = document.createElement("p");
+      formStatus.id = "formStatus";
+      formStatus.className = "form-status";
+      formStatus.setAttribute("role", "status");
+      formStatus.setAttribute("aria-live", "polite");
+      enrollmentForm.appendChild(formStatus);
     }
 
-    // Recupera los datos ingresados.
-    const nombre = document.getElementById("nombre").value.trim();
-    const edad = document.getElementById("edad").value;
-    const actividad = document.getElementById("actividad").value;
-    const turno = document.getElementById("turno").value;
-    const consulta = document.getElementById("consulta").value.trim();
+    enrollmentForm.addEventListener("submit", (event) => {
+      event.preventDefault();
 
-    // Construye el mensaje.
-    const mensaje = [
-      "Hola, ElevARTE. Quiero consultar por clases e inscripción.",
-      `Nombre: ${nombre}`,
-      `Edad del alumno/a: ${edad}`,
-      `Actividad de interés: ${actividad}`,
-      `Horario preferido: ${turno}`,
-      consulta ? `Mensaje adicional: ${consulta}` : ""
-    ]
-      .filter(Boolean)
-      .join("\n");
+      if (!enrollmentForm.reportValidity()) {
+        return;
+      }
 
-    // Abre WhatsApp con el mensaje preparado.
-    const url =
-      `https://wa.me/${WHATSAPP_NUMBER}?text=` +
-      encodeURIComponent(mensaje);
+      // Verificar el consentimiento de privacidad, si existe.
+      const privacyConsent = document.getElementById("privacyConsent");
 
-    window.open(url, "_blank", "noopener,noreferrer");
-  });
-}
+      if (privacyConsent && !privacyConsent.checked) {
+        formStatus.textContent =
+          "Para continuar, tenés que aceptar la política de privacidad.";
 
-// ============================================
-// ANIMACIONES AL DESPLAZARSE (SCROLL REVEAL)
-// ============================================
+        privacyConsent.focus();
+        return;
+      }
 
-(() => {
+      // No enviar a un número de ejemplo.
+      if (
+        !/^\d{10,15}$/.test(WHATSAPP_NUMBER) ||
+        WHATSAPP_NUMBER === "5490000000000"
+      ) {
+        formStatus.textContent =
+          "Falta configurar el número real de WhatsApp de ElevARTE.";
+
+        alert(
+          "Configurá el número real de WhatsApp en la constante " +
+          "WHATSAPP_NUMBER del archivo script.js."
+        );
+
+        return;
+      }
+
+      // Obtener campos de forma segura.
+      const getFieldValue = (id) => {
+        const field = document.getElementById(id);
+        return field && "value" in field ? field.value.trim() : "";
+      };
+
+      const nombre = getFieldValue("nombre");
+      const edad = getFieldValue("edad");
+      const actividad = getFieldValue("actividad");
+      const turno = getFieldValue("turno");
+      const consulta = getFieldValue("consulta");
+
+      // Construir el mensaje de inscripción.
+      const mensaje = [
+        "Hola, ElevARTE. Quiero consultar por clases e inscripción.",
+        `Nombre: ${nombre}`,
+        `Edad del alumno/a: ${edad}`,
+        `Actividad de interés: ${actividad}`,
+        `Horario preferido: ${turno}`,
+        consulta ? `Mensaje adicional: ${consulta}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      const whatsappURL =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=` +
+        encodeURIComponent(mensaje);
+
+      formStatus.textContent =
+        "Abriendo WhatsApp para enviar tu consulta...";
+
+      // Abrir WhatsApp sin depender del valor devuelto por window.open.
+      const whatsappWindow = window.open(
+        whatsappURL,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+      // Alternativa si el navegador bloquea la nueva pestaña.
+      if (!whatsappWindow) {
+        formStatus.textContent =
+          "Si WhatsApp no se abrió, usá este enlace para continuar.";
+
+        const fallbackLink = document.createElement("a");
+        fallbackLink.href = whatsappURL;
+        fallbackLink.target = "_blank";
+        fallbackLink.rel = "noopener noreferrer";
+        fallbackLink.textContent = "Abrir WhatsApp";
+
+        formStatus.appendChild(document.createTextNode(" "));
+        formStatus.appendChild(fallbackLink);
+      }
+    });
+  }
+
+  // ------------------------------------------------
+  // ANIMACIONES AL DESPLAZARSE (SCROLL REVEAL)
+  // ------------------------------------------------
+
   const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
@@ -145,158 +237,170 @@ if (enrollmentForm) {
     ".info-panel"
   ];
 
-  const elements = document.querySelectorAll(
+  const revealElements = document.querySelectorAll(
     revealSelectors.join(", ")
   );
 
-  // Si el usuario prefiere menos movimiento,
-  // el contenido permanece visible sin animaciones.
-  if (reducedMotion || !("IntersectionObserver" in window)) {
-    return;
+  if (
+    !reducedMotion &&
+    "IntersectionObserver" in window &&
+    revealElements.length > 0
+  ) {
+    // El CSS puede utilizar esta clase para activar los estados iniciales.
+    document.documentElement.classList.add("js-motion");
+
+    revealElements.forEach((element) => {
+      element.classList.add("reveal");
+
+      const isCard = element.matches(
+        ".class-card, .schedule-card, .step"
+      );
+
+      if (isCard && element.parentElement) {
+        const siblings = Array.from(element.parentElement.children);
+        const position = siblings.indexOf(element);
+
+        element.style.setProperty(
+          "--reveal-delay",
+          `${Math.max(position, 0) * 100}ms`
+        );
+      }
+    });
+
+    const observer = new IntersectionObserver(
+      (entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("is-visible");
+          currentObserver.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -45px 0px"
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
   }
 
-  // Activamos las animaciones solo si están soportadas.
-  document.documentElement.classList.add("js-motion");
+  // ------------------------------------------------
+  // CURSOR PERSONALIZADO PARA COMPUTADORAS
+  // ------------------------------------------------
 
-  elements.forEach((element, index) => {
-    element.classList.add("reveal");
-
-    // Escalonamiento suave en tarjetas consecutivas.
-    const isCard =
-      element.matches(".class-card, .schedule-card, .step");
-
-    if (isCard) {
-      const siblings = Array.from(element.parentElement.children);
-      const position = siblings.indexOf(element);
-
-      element.style.setProperty(
-        "--reveal-delay",
-        `${position * 100}ms`
-      );
-    }
-  });
-
-  const observer = new IntersectionObserver(
-    (entries, currentObserver) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
-        entry.target.classList.add("is-visible");
-        currentObserver.unobserve(entry.target);
-      });
-    },
-    {
-      threshold: 0.12,
-      rootMargin: "0px 0px -45px 0px"
-    }
-  );
-
-  elements.forEach((element) => {
-    observer.observe(element);
-  });
-})();
-
-
-// ============================================
-// CURSOR PERSONALIZADO PARA COMPUTADORAS
-// ============================================
-
-(() => {
   const finePointer = window.matchMedia(
     "(hover: hover) and (pointer: fine) and (min-width: 801px)"
   ).matches;
 
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
+  if (finePointer && !reducedMotion) {
+    const dot = document.createElement("div");
+    dot.className = "cursor-dot";
+    dot.setAttribute("aria-hidden", "true");
 
-  // No reemplazamos el cursor en celulares,
-  // tablets táctiles ni usuarios que reducen movimiento.
-  if (!finePointer || reducedMotion) {
-    return;
+    const ring = document.createElement("div");
+    ring.className = "cursor-ring";
+    ring.setAttribute("aria-hidden", "true");
+
+    document.body.append(dot, ring);
+    document.body.classList.add("custom-cursor");
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let animationFrame = null;
+    let pointerInside = false;
+
+    function updateCursor() {
+      dot.style.left = `${mouseX}px`;
+      dot.style.top = `${mouseY}px`;
+
+      // El anillo sigue al cursor con un retraso suave.
+      ringX += (mouseX - ringX) * 0.22;
+      ringY += (mouseY - ringY) * 0.22;
+
+      ring.style.left = `${ringX}px`;
+      ring.style.top = `${ringY}px`;
+
+      const distance =
+        Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY);
+
+      if (distance > 0.5) {
+        animationFrame = requestAnimationFrame(updateCursor);
+      } else {
+        animationFrame = null;
+      }
+    }
+
+    document.addEventListener("mousemove", (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      pointerInside = true;
+
+      dot.style.opacity = "1";
+      ring.style.opacity = "1";
+
+      if (animationFrame === null) {
+        animationFrame = requestAnimationFrame(updateCursor);
+      }
+    });
+
+    document.addEventListener("mouseleave", () => {
+      pointerInside = false;
+      dot.style.opacity = "0";
+      ring.style.opacity = "0";
+    });
+
+    document.addEventListener("mouseenter", () => {
+      pointerInside = true;
+      dot.style.opacity = "1";
+      ring.style.opacity = "1";
+    });
+
+    // Aumentar el anillo sobre enlaces y controles.
+    const interactiveSelector = [
+      "a",
+      "button",
+      "input",
+      "select",
+      "textarea",
+      "[role='button']"
+    ].join(", ");
+
+    document.addEventListener("pointerover", (event) => {
+      const target = event.target;
+
+      if (
+        target instanceof Element &&
+        target.closest(interactiveSelector)
+      ) {
+        ring.classList.add("is-active");
+      }
+    });
+
+    document.addEventListener("pointerout", (event) => {
+      const target = event.target;
+      const relatedTarget = event.relatedTarget;
+
+      if (
+        target instanceof Element &&
+        target.closest(interactiveSelector) &&
+        !(
+          relatedTarget instanceof Element &&
+          target.closest(interactiveSelector).contains(relatedTarget)
+        )
+      ) {
+        ring.classList.remove("is-active");
+      }
+    });
   }
 
-  const dot = document.createElement("div");
-  dot.className = "cursor-dot";
-  dot.setAttribute("aria-hidden", "true");
+  // ------------------------------------------------
+  // ENLACES INTERNOS Y NAVEGACIÓN
+  // ------------------------------------------------
 
-  const ring = document.createElement("div");
-  ring.className = "cursor-ring";
-  ring.setAttribute("aria-hidden", "true");
-
-  document.body.append(dot, ring);
-  document.body.classList.add("custom-cursor");
-
-  let mouseX = -100;
-  let mouseY = -100;
-  let ringX = -100;
-  let ringY = -100;
-  let animationFrame = null;
-
-  function updateCursor() {
-    dot.style.left = `${mouseX}px`;
-    dot.style.top = `${mouseY}px`;
-
-    // El anillo sigue al cursor con un pequeño retraso.
-    ringX += (mouseX - ringX) * 0.22;
-    ringY += (mouseY - ringY) * 0.22;
-
-    ring.style.left = `${ringX}px`;
-    ring.style.top = `${ringY}px`;
-
-    const distance =
-      Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY);
-
-    if (distance > 0.5) {
-      animationFrame = requestAnimationFrame(updateCursor);
-    } else {
-      animationFrame = null;
-    }
-  }
-
-  document.addEventListener("mousemove", (event) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-
-    dot.style.opacity = "1";
-    ring.style.opacity = "1";
-
-    if (animationFrame === null) {
-      animationFrame = requestAnimationFrame(updateCursor);
-    }
-  });
-
-  document.addEventListener("mouseleave", () => {
-    dot.style.opacity = "0";
-    ring.style.opacity = "0";
-  });
-
-  document.addEventListener("mouseenter", () => {
-    dot.style.opacity = "1";
-    ring.style.opacity = "1";
-  });
-
-  // El anillo cambia de tamaño sobre elementos interactivos.
-  const interactiveSelector = [
-    "a",
-    "button",
-    "input",
-    "select",
-    "textarea",
-    "[role='button']"
-  ].join(", ");
-
-  document.addEventListener("pointerover", (event) => {
-    if (event.target.closest(interactiveSelector)) {
-      ring.classList.add("is-active");
-    }
-  });
-
-  document.addEventListener("pointerout", (event) => {
-    if (event.target.closest(interactiveSelector)) {
-      ring.classList.remove("is-active");
-    }
-  });
-})();
+  window.addEventListener("hashchange", closeMenu);
+});
