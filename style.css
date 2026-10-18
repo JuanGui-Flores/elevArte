@@ -1327,6 +1327,7 @@ footer .legal-links a:hover {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1340,7 +1341,6 @@ footer .legal-links a:hover {
 .hero-art {
   animation: heroEntrance .9s var(--ease) .12s both;
 }
-
 
 /* ===================== CURSOR DOT & RING ===================== */
 
@@ -1369,24 +1369,27 @@ footer .legal-links a:hover {
   width: 18px;
   height: 18px;
   border: 1px solid var(--gold-light);
-  background: rgba(201, 185, 140, 0.14);
+  background: rgba(201, 185, 140, .14);
   transition:
-    width 0.2s ease,
-    height 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease,
-    opacity 0.2s ease;
+    width .2s ease,
+    height .2s ease,
+    background .2s ease,
+    border-color .2s ease,
+    opacity .2s ease;
 }
 
 /* Expansión sobre elementos interactivos */
 .cursor-ring.is-active {
   width: 34px;
   height: 34px;
-  background: rgba(201, 185, 140, 0.3);
+  background: rgba(201, 185, 140, .3);
   border-color: var(--gold-light);
 }
 
-/* Ocultar el cursor nativo en computadoras compatibles */
+/*
+  Ocultar el cursor nativo solo si JavaScript
+  activa correctamente el cursor personalizado.
+*/
 @media (hover: hover) and (pointer: fine) and (min-width: 801px) {
   body.custom-cursor,
   body.custom-cursor * {
@@ -1394,14 +1397,13 @@ footer .legal-links a:hover {
   }
 }
 
-/* Respetar la preferencia de movimiento reducido */
-@media (prefers-reduced-motion: reduce) {
+/* No mostrar el cursor personalizado en dispositivos táctiles */
+@media (hover: none), (pointer: coarse), (max-width: 800px) {
   .cursor-dot,
   .cursor-ring {
     display: none !important;
   }
 }
-
 
 /* ===================== TABLET ===================== */
 
@@ -1806,19 +1808,9 @@ footer .legal-links a:hover {
     opacity: 1;
     transform: none;
   }
-}
 
-/* Cursor personalizado únicamente con ratón */
-@media (hover: hover) and (pointer: fine) {
-  body,
-  a,
-  button {
-    cursor: none;
-  }
-}
-
-@media (hover: none), (pointer: coarse) {
-  .custom-cursor {
-    display: none;
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
   }
 }
