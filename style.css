@@ -1507,32 +1507,71 @@ blockquote em,
 }
 
 
-/* REVELADO AL HACER SCROLL */
 
+/* =========================================
+   REVELADO AL HACER SCROLL
+   ========================================= */
+
+/* Estado inicial: solo se oculta si JS está activo */
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 750ms var(--ease),
-    transform 750ms var(--ease);
-}
-
-/* Solo ocultar elementos cuando JavaScript está activo */
-.js-motion .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-}
-
-.js-motion .reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Sin JavaScript, el contenido permanece visible */
-html:not(.js-motion) .reveal {
   opacity: 1;
   transform: none;
 }
+
+html.js-motion .reveal {
+  opacity: 0;
+  transition:
+    opacity 900ms ease,
+    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 900ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  filter: blur(5px);
+  will-change: opacity, transform, filter;
+}
+
+/* Entrada desde la izquierda */
+html.js-motion .reveal.from-left {
+  transform: translate3d(-110px, 0, 0);
+}
+
+/* Entrada desde la derecha */
+html.js-motion .reveal.from-right {
+  transform: translate3d(110px, 0, 0);
+}
+
+/* Entrada desde abajo */
+html.js-motion .reveal.from-bottom {
+  transform: translate3d(0, 75px, 0);
+}
+
+/* Entrada con escala */
+html.js-motion .reveal.from-scale {
+  transform: scale(0.88);
+}
+
+/* Estado final */
+html.js-motion .reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+  will-change: auto;
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion .reveal,
+  html.js-motion .reveal.from-left,
+  html.js-motion .reveal.from-right,
+  html.js-motion .reveal.from-bottom,
+  html.js-motion .reveal.from-scale {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
 
 
 /* CURSOR PERSONALIZADO: SOLO ESCRITORIO */
@@ -2021,23 +2060,30 @@ html:not(.js-motion) .reveal {
   }
 }
 
-/* EL CURSOR NATIVO SE CONSERVA EN DISPOSITIVOS TÁCTILES */
+
+/* =========================================
+   CURSOR PERSONALIZADO — SOLO ESCRITORIO
+   ========================================= */
+
 @media (hover: hover) and (pointer: fine) {
   body.has-custom-cursor,
-  body.has-custom-cursor a,
-  body.has-custom-cursor button {
-    cursor: none;
+  body.has-custom-cursor *,
+  body.has-custom-cursor *::before,
+  body.has-custom-cursor *::after {
+    cursor: none !important;
   }
 
   body.has-custom-cursor .cursor-dot,
   body.has-custom-cursor .cursor-ring {
-    opacity: 1;
+    display: block;
   }
 }
 
+/* En dispositivos táctiles no se oculta ningún cursor nativo */
 @media (hover: none), (pointer: coarse) {
   .cursor-dot,
   .cursor-ring {
-    display: none;
+    display: none !important;
   }
 }
+
