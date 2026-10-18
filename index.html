@@ -1,61 +1,53 @@
+
 <!doctype html>
 <html lang="es-AR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#741628" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#040303" />
+    <meta name="color-scheme" content="dark" />
 
     <title>ElevARTE Danza &amp; Arte | Clases en Pocito, San Juan</title>
-
     <meta
       name="description"
-      content="Conocé ElevARTE Danza &amp; Arte en Pocito, San Juan. Descubrí nuestras propuestas de danza y formación artística. Consultá horarios e inscripciones."
+      content="Conocé ElevARTE Danza & Arte en Pocito, San Juan. Descubrí nuestras propuestas de danza y formación artística. Consultá horarios e inscripciones."
     />
-    <meta name="author" content="ElevARTE Danza &amp; Arte" />
+    <meta name="author" content="ElevARTE Danza & Arte" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <link rel="canonical" href="https://elevarte-web-two.vercel.app/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_AR" />
-    <meta property="og:site_name" content="ElevARTE Danza &amp; Arte" />
+    <meta property="og:site_name" content="ElevARTE Danza & Arte" />
     <meta
       property="og:title"
-      content="ElevARTE Danza &amp; Arte | Tu pasión merece elevarse"
+      content="ElevARTE Danza & Arte | Tu pasión merece elevarse"
     />
     <meta
       property="og:description"
-      content="Descubrí las propuestas de danza y formación artística de ElevARTE en Pocito, San Juan. Consultá por clases e inscripciones."
+      content="Descubrí las propuestas de danza y formación artística de ElevARTE en Pocito, San Juan."
     />
     <meta property="og:url" content="https://elevarte-web-two.vercel.app/" />
-
-    <!-- Activar cuando exista una imagen real publicada -->
-    <!--
-    <meta
-      property="og:image"
-      content="https://elevarte-web-two.vercel.app/images/elevArte-social.jpg"
-    />
-    <meta
-      property="og:image:alt"
-      content="ElevARTE Danza & Arte, Pocito, San Juan"
-    />
-    -->
-
-    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="ElevARTE Danza &amp; Arte | Pocito, San Juan"
+      content="ElevARTE Danza & Arte | Pocito, San Juan"
     />
     <meta
       name="twitter:description"
       content="Un espacio para aprender, crear y expresar tu pasión por el arte."
     />
 
-    <!-- SEO local y GEO: organización, sitio y página -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -111,11 +103,16 @@
   </head>
 
   <body>
-    <header>
+    <a class="skip-link" href="#contenido">Ir al contenido principal</a>
+
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+
+    <header class="site-header" id="siteHeader">
       <div class="container nav">
         <a class="brand" href="#inicio" aria-label="ElevARTE, inicio">
           <span class="brand-mark" aria-hidden="true">E</span>
-          <span>
+          <span class="brand-text">
             ElevARTE
             <small>DANZA &amp; ARTE</small>
           </span>
@@ -126,444 +123,441 @@
           id="menuBtn"
           aria-label="Abrir menú"
           aria-expanded="false"
+          aria-controls="navLinks"
           type="button"
         >
-          ☰
+          <span></span>
+          <span></span>
         </button>
 
         <nav class="navlinks" id="navLinks" aria-label="Navegación principal">
           <a href="#nosotros">El instituto</a>
           <a href="#clases">Clases</a>
           <a href="#horarios">Horarios</a>
-          <a href="#experiencia">Nuestra esencia</a>
           <a href="#ubicacion">Ubicación</a>
-          <a href="#contacto" class="nav-cta">Quiero inscribirme</a>
+          <a href="#contacto" class="nav-cta">
+            <span>Quiero inscribirme</span>
+            <span aria-hidden="true">↗</span>
+          </a>
         </nav>
       </div>
     </header>
 
-    <main>
+    <main id="contenido">
       <!-- PORTADA -->
       <section class="hero" id="inicio">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <span class="eyebrow">Un espacio para expresarte en Pocito</span>
+        <div class="hero-image" role="img" aria-label="Bailarina en una pose de danza artística"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="container hero-content">
+          <div class="hero-copy reveal">
+            <span class="eyebrow">
+              <span class="eyebrow-line"></span>
+              UN ESPACIO PARA EXPRESARTE · POCITO, SAN JUAN
+            </span>
 
             <h1>
-              Tu pasión<br />
-              merece <em>elevarse.</em>
+              El arte de<br />
+              <em>ser vos.</em>
             </h1>
 
-            <p>
-              En ElevARTE Danza &amp; Arte, en Pocito, San Juan, encontrá un
-              espacio para descubrir la danza, desarrollar tu expresión y crecer
-              a través del arte.
+            <p class="hero-description">
+              Un lugar para descubrir el movimiento, desarrollar tu
+              creatividad y dejar que tu pasión encuentre su propia forma.
             </p>
 
             <div class="hero-actions">
-              <a class="btn" href="#clases">Conocé nuestras clases</a>
-              <a class="btn btn-outline" href="#nosotros">
-                Descubrí ElevARTE
+              <a class="btn btn-primary" href="#clases">
+                Descubrí las clases
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a class="text-link" href="#nosotros">
+                Conocé ElevARTE <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
 
-          <div class="hero-art" aria-label="ElevARTE, Danza y Arte">
-            <div class="orbit"></div>
+          <div class="hero-side-note reveal">
+            <span class="side-note-number">01</span>
+            <span class="side-note-line"></span>
+            <span class="side-note-text">DANZA<br />EXPRESIÓN<br />ARTE</span>
+          </div>
 
-            <div class="hero-logo">
-              <span class="hero-logo-letter">E</span>
-              <span class="hero-logo-name">ElevARTE</span>
-              <span class="hero-logo-subtitle">DANZA &amp; ARTE</span>
-            </div>
+          <a class="hero-scroll" href="#nosotros" aria-label="Desplazarse a la siguiente sección">
+            <span class="scroll-line"></span>
+            <span>DESLIZÁ PARA DESCUBRIR</span>
+          </a>
 
-            <div class="floating-note">Danza · Arte · Expresión</div>
+          <span class="hero-index">E / 01</span>
+        </div>
+      </section>
+
+      <!-- PRESENTACIÓN -->
+      <section class="intro-section section" id="nosotros">
+        <div class="container intro-layout">
+          <div class="section-index reveal">
+            <span>01</span>
+            <span class="index-rule"></span>
+            <span>EL INSTITUTO</span>
+          </div>
+
+          <div class="intro-heading reveal">
+            <p class="eyebrow">Bienvenidos a ElevARTE</p>
+            <h2>
+              El movimiento<br />
+              también es una<br />
+              forma de <em>hablar.</em>
+            </h2>
+          </div>
+
+          <div class="intro-copy reveal">
+            <p class="intro-lead">
+              Creemos en el arte como una manera de conectar con vos mismo y
+              con los demás.
+            </p>
+            <p>
+              ElevARTE Danza &amp; Arte es un espacio de formación artística en
+              Pocito, San Juan, pensado para acompañar tu recorrido, respetar
+              tus tiempos de aprendizaje y celebrar cada logro.
+            </p>
+            <p>
+              Queremos que encuentres un lugar donde la creatividad, la
+              dedicación y la pasión tengan espacio para crecer.
+            </p>
+            <a class="text-link text-link-accent" href="#contacto">
+              Empezá tu recorrido <span aria-hidden="true">↗</span>
+            </a>
+            <span class="signature">Tu historia también se baila.</span>
           </div>
         </div>
       </section>
 
-      <!-- SOBRE NOSOTROS -->
-      <section class="section" id="nosotros">
-        <div class="container intro-grid">
-          <div class="intro-panel">
-            <span class="eyebrow">Más que aprender pasos</span>
-            <h2>Un lugar donde el arte cobra vida.</h2>
-
-            <p>
-              Creemos en el movimiento como una forma de comunicar, conectar y
-              crecer. Cada clase es una oportunidad para aprender, compartir y
-              animarte a más.
-            </p>
-          </div>
-
-          <div class="intro-copy">
-            <span class="eyebrow">Conocé nuestro espacio</span>
-            <h2>El arte de crecer siendo vos.</h2>
-
-            <p>
-              ElevARTE Danza &amp; Arte es un espacio de formación artística en
-              Pocito, San Juan, pensado para acompañar tu recorrido artístico,
-              respetando los tiempos de aprendizaje y celebrando cada logro.
-            </p>
-
-            <p>
-              Queremos que te sientas parte de una comunidad donde la
-              dedicación, la creatividad y la pasión tienen lugar.
-            </p>
-
-            <div class="signature">Tu historia también se baila.</div>
-          </div>
+      <!-- IMAGEN EDITORIAL -->
+      <section class="image-break" aria-label="El arte del movimiento">
+        <div class="image-break-photo" role="img" aria-label="Detalle artístico de una práctica de danza"></div>
+        <div class="image-break-caption">
+          <span>EL CUERPO SE EXPRESA.</span>
+          <span>EL ARTE NOS CONECTA.</span>
         </div>
+        <span class="image-break-mark" aria-hidden="true">E.</span>
       </section>
 
       <!-- CLASES -->
-      <section class="section classes" id="clases">
+      <section class="classes-section section" id="clases">
         <div class="container">
-          <div class="section-head">
-            <span class="eyebrow">Encontrá tu ritmo</span>
-            <h2>Clases para descubrir tu expresión</h2>
-
-            <p>
-              Explorá las propuestas del instituto y encontrá la actividad que
-              mejor conecte con vos.
-            </p>
+          <div class="section-heading reveal">
+            <div class="section-index">
+              <span>02</span>
+              <span class="index-rule"></span>
+              <span>ENCONTRÁ TU RITMO</span>
+            </div>
+            <div class="heading-grid">
+              <h2>Explorá tu<br /><em>expresión.</em></h2>
+              <p>
+                Cada recorrido es distinto. Conocé nuestras propuestas y
+                consultanos para encontrar la actividad que mejor conecte con
+                vos.
+              </p>
+            </div>
           </div>
 
-          <div class="cards">
-            <article class="class-card">
-              <div class="class-icon" aria-hidden="true">✧</div>
-              <h3>Danza</h3>
-
-              <p>
-                Desarrollá técnica, coordinación, musicalidad y confianza a
-                través del movimiento.
-              </p>
-
-              <a class="learn" href="#contacto">
-                Consultar estilos <span aria-hidden="true">↗</span>
-              </a>
+          <div class="class-grid">
+            <article class="class-card class-card-featured reveal">
+              <div class="class-card-image dance-image" role="img" aria-label="Imagen de una práctica de danza"></div>
+              <div class="class-card-content">
+                <span class="class-number">01 / MOVIMIENTO</span>
+                <div class="class-card-title">
+                  <h3>Danza</h3>
+                  <span class="class-symbol" aria-hidden="true">↗</span>
+                </div>
+                <p>
+                  Desarrollá técnica, coordinación, musicalidad y confianza a
+                  través del movimiento.
+                </p>
+                <a href="#contacto" class="card-link" data-activity="Danza">
+                  Consultar estilos <span aria-hidden="true">↗</span>
+                </a>
+              </div>
             </article>
 
-            <article class="class-card">
-              <div class="class-icon" aria-hidden="true">❋</div>
-              <h3>Expresión artística</h3>
-
-              <p>
-                Un espacio para explorar tu creatividad, expresarte y conectar
-                con el arte.
-              </p>
-
-              <a class="learn" href="#contacto">
-                Conocer la propuesta <span aria-hidden="true">↗</span>
-              </a>
+            <article class="class-card reveal">
+              <div class="class-card-image expression-image" role="img" aria-label="Imagen de una experiencia creativa"></div>
+              <div class="class-card-content">
+                <span class="class-number">02 / CREATIVIDAD</span>
+                <div class="class-card-title">
+                  <h3>Expresión artística</h3>
+                  <span class="class-symbol" aria-hidden="true">↗</span>
+                </div>
+                <p>
+                  Explorá tu creatividad, descubrí nuevas formas de expresarte
+                  y conectá con el arte.
+                </p>
+                <a href="#contacto" class="card-link" data-activity="Expresión artística">
+                  Conocer la propuesta <span aria-hidden="true">↗</span>
+                </a>
+              </div>
             </article>
 
-            <article class="class-card">
-              <div class="class-icon" aria-hidden="true">✦</div>
-              <h3>Formación y crecimiento</h3>
-
-              <p>
-                Aprendé a tu ritmo, superá desafíos y disfrutá el proceso junto
-                a otros.
-              </p>
-
-              <a class="learn" href="#contacto">
-                Encontrar mi clase <span aria-hidden="true">↗</span>
-              </a>
+            <article class="class-card class-card-wide reveal">
+              <div class="class-card-content">
+                <span class="class-number">03 / TU RECORRIDO</span>
+                <div class="class-card-title">
+                  <h3>Formación y crecimiento</h3>
+                  <span class="class-symbol" aria-hidden="true">↗</span>
+                </div>
+                <p>
+                  Aprendé a tu ritmo, superá desafíos y disfrutá cada etapa de
+                  tu experiencia artística.
+                </p>
+                <a href="#contacto" class="card-link" data-activity="Formación y crecimiento">
+                  Encontrar mi clase <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+              <div class="wide-card-art" aria-hidden="true">
+                <span class="wide-art-circle"></span>
+                <span class="wide-art-letter">E</span>
+                <span class="wide-art-caption">CREÁ · APRENDÉ · CRECÉ</span>
+              </div>
             </article>
           </div>
 
           <p class="section-disclaimer">
-            Las disciplinas, edades, niveles y horarios deben confirmarse con el
-            instituto.
-          </p>
-        </div>
-      </section>
-
-      <!-- HORARIOS -->
-      <section class="section schedule" id="horarios">
-        <div class="container">
-          <div class="section-head">
-            <span class="eyebrow">Organizá tu semana</span>
-            <h2>Encontrá un horario para vos</h2>
-
-            <p>
-              Los días y horarios dependen de la disciplina y del grupo.
-              Consultanos para confirmar los turnos disponibles antes de
-              inscribirte.
-            </p>
-          </div>
-
-          <div class="schedule-grid">
-            <article class="schedule-card">
-              <span class="schedule-icon" aria-hidden="true">☼</span>
-
-              <div>
-                <h3>Turnos por la mañana</h3>
-                <p>
-                  Consultá si hay grupos disponibles en el horario que
-                  necesitás.
-                </p>
-              </div>
-
-              <a href="#contacto" class="learn"> Consultar disponibilidad ↗ </a>
-            </article>
-
-            <article class="schedule-card">
-              <span class="schedule-icon" aria-hidden="true">◷</span>
-
-              <div>
-                <h3>Turnos por la tarde</h3>
-                <p>
-                  Contanos tu disponibilidad y la actividad que te interesa.
-                </p>
-              </div>
-
-              <a href="#contacto" class="learn"> Consultar disponibilidad ↗ </a>
-            </article>
-
-            <article class="schedule-card">
-              <span class="schedule-icon" aria-hidden="true">☾</span>
-
-              <div>
-                <h3>Otros horarios</h3>
-                <p>
-                  Escribinos para conocer las opciones vigentes y los cupos.
-                </p>
-              </div>
-
-              <a href="#contacto" class="learn"> Consultar disponibilidad ↗ </a>
-            </article>
-          </div>
-
-          <p class="schedule-note">
-            Los horarios oficiales deben ser confirmados por ElevARTE.
+            Las disciplinas específicas, edades, niveles y cupos deben
+            confirmarse directamente con el instituto.
           </p>
         </div>
       </section>
 
       <!-- ESENCIA -->
-      <section class="quote" id="experiencia">
-        <div class="container">
-          <span class="eyebrow">La esencia de ElevARTE</span>
-
+      <section class="quote-section" id="experiencia">
+        <div class="quote-decoration" aria-hidden="true">“</div>
+        <div class="container quote-inner reveal">
+          <p class="eyebrow">La esencia de ElevARTE</p>
           <blockquote>
-            “Cuando el cuerpo se mueve y el corazón se expresa, el arte nos
-            transforma.”
+            Cuando el cuerpo se mueve y el corazón se expresa,
+            <em>el arte nos transforma.</em>
           </blockquote>
-
-          <p>Un espacio para aprender, crear y elevar tu pasión.</p>
+          <span class="quote-line"></span>
+          <p class="quote-caption">UN ESPACIO PARA APRENDER, CREAR Y CRECER.</p>
         </div>
       </section>
 
-      <!-- PROCESO DE INSCRIPCIÓN -->
-      <section class="section" id="inscripcion">
-        <div class="container">
-          <div class="section-head">
-            <span class="eyebrow">Tu próximo paso</span>
-            <h2>Empezar es más simple de lo que pensás</h2>
-
+      <!-- HORARIOS -->
+      <section class="schedule-section section" id="horarios">
+        <div class="container schedule-layout">
+          <div class="schedule-intro reveal">
+            <div class="section-index">
+              <span>03</span>
+              <span class="index-rule"></span>
+              <span>ORGANIZÁ TU SEMANA</span>
+            </div>
+            <h2>Un lugar para<br />hacerle espacio<br />a tu <em>pasión.</em></h2>
             <p>
-              Te acompañamos para que encuentres la propuesta ideal para vos.
+              Los días y horarios dependen de la actividad y del grupo.
+              Contanos qué disponibilidad tenés para consultar las opciones
+              vigentes.
             </p>
+            <a class="btn btn-primary" href="#contacto">
+              Consultar horarios <span aria-hidden="true">↗</span>
+            </a>
           </div>
 
-          <div class="steps">
-            <article class="step">
-              <div class="step-number">01</div>
-              <h3>Escribinos</h3>
-              <p>Contanos qué te interesa y para quién sería la clase.</p>
-            </article>
-
-            <article class="step">
-              <div class="step-number">02</div>
-              <h3>Conocé las opciones</h3>
-              <p>
-                Consultá disciplinas, edades, niveles, horarios y aranceles.
-              </p>
-            </article>
-
-            <article class="step">
-              <div class="step-number">03</div>
-              <h3>Animate a empezar</h3>
-              <p>
-                Elegí tu propuesta y empezá a vivir tu experiencia en ElevARTE.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- UBICACIÓN LOCAL: SEO Y GEO -->
-      <section class="section local-info" id="ubicacion">
-        <div class="container">
-          <div class="section-head">
-            <span class="eyebrow">Estamos en San Juan</span>
-            <h2>Danza y arte en Pocito</h2>
-
-            <p>
-              ElevARTE Danza &amp; Arte es un espacio de formación artística
-              ubicado en Pocito, San Juan, Argentina. Contactanos para conocer
-              las propuestas disponibles, consultar horarios y recibir
-              información sobre inscripciones.
-            </p>
-          </div>
-
-          <div class="local-info-content">
-            <article>
-              <h3>Nuestra ubicación</h3>
-              <p>Maurin 871 Este, Pocito, San Juan, Argentina.</p>
-
-              <a
-                href="https://www.google.com/maps/search/?api=1&amp;query=Maurin%20871%20Este%2C%20Pocito%2C%20San%20Juan%2C%20Argentina"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Consultar ubicación en Google Maps ↗
-              </a>
-            </article>
-
-            <article>
-              <h3>Conocé las propuestas</h3>
-              <p>
-                Explorá las opciones de danza y expresión artística. Consultá
-                las disciplinas, edades y niveles disponibles.
-              </p>
-
-              <a href="#clases">Conocer las clases</a>
-            </article>
-
-            <article>
-              <h3>Consultas e inscripciones</h3>
-              <p>
-                Solicitá información sobre horarios, cupos, aranceles y
-                requisitos de inscripción.
-              </p>
-
-              <a href="#contacto">Contactar al instituto</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACTO -->
-      <section class="section contact" id="contacto">
-        <div class="container contact-grid">
-          <div class="contact-copy">
-            <span class="eyebrow">Estamos para ayudarte</span>
-            <h2>Tu próxima etapa empieza acá.</h2>
-
-            <p>
-              Completá tus datos para preparar una consulta sobre clases,
-              horarios, edades, niveles y proceso de inscripción.
-            </p>
-
-            <div class="contact-details">
-              <div class="detail">
-                <span aria-hidden="true">✉</span>
-                <div>
-                  <strong>Consultas e inscripciones</strong>
-                  <span>
-                    Te orientamos para encontrar la propuesta adecuada.
-                  </span>
-                </div>
+          <div class="schedule-list reveal">
+            <article class="schedule-item">
+              <span class="schedule-time">01</span>
+              <div>
+                <h3>Turnos por la mañana</h3>
+                <p>Consultá disponibilidad para tu actividad.</p>
               </div>
+              <a href="#contacto" aria-label="Consultar turnos por la mañana">↗</a>
+            </article>
 
-              <div class="detail">
-                <span aria-hidden="true">⌖</span>
-                <div>
-                  <strong>Ubicación del instituto</strong>
-                  <span> Maurin 871 Este, Pocito, San Juan, Argentina. </span>
-                  <a
-                    href="https://www.google.com/maps/search/?api=1&amp;query=Maurin%20871%20Este%2C%20Pocito%2C%20San%20Juan%2C%20Argentina"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Ver en Google Maps ↗
-                  </a>
-                </div>
+            <article class="schedule-item">
+              <span class="schedule-time">02</span>
+              <div>
+                <h3>Turnos por la tarde</h3>
+                <p>Contanos qué días te quedan cómodos.</p>
               </div>
+              <a href="#contacto" aria-label="Consultar turnos por la tarde">↗</a>
+            </article>
 
-              <div class="detail">
-                <span aria-hidden="true">◷</span>
-                <div>
-                  <strong>Horarios y cupos</strong>
-                  <span> Se confirman por mensaje según la actividad. </span>
-                </div>
+            <article class="schedule-item">
+              <span class="schedule-time">03</span>
+              <div>
+                <h3>Otros horarios</h3>
+                <p>Preguntá por las opciones disponibles.</p>
+              </div>
+              <a href="#contacto" aria-label="Consultar otros horarios">↗</a>
+            </article>
+
+            <p class="schedule-note">
+              Estos son momentos de consulta, no un cronograma oficial de
+              clases. Los horarios deben confirmarse con ElevARTE.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- UBICACIÓN -->
+      <section class="location-section section" id="ubicacion">
+        <div class="container location-layout">
+          <div class="location-copy reveal">
+            <div class="section-index">
+              <span>04</span>
+              <span class="index-rule"></span>
+              <span>ENCONTRANOS</span>
+            </div>
+            <p class="eyebrow">Pocito · San Juan · Argentina</p>
+            <h2>Un espacio para<br />encontrarte con<br /><em>el arte.</em></h2>
+            <p>
+              Visitá ElevARTE Danza &amp; Arte en Pocito. Consultanos por las
+              propuestas disponibles, los horarios y el proceso de inscripción.
+            </p>
+
+            <div class="address-block">
+              <span class="address-label">DIRECCIÓN</span>
+              <address>Maurin 871 Este<br />Pocito, San Juan, Argentina</address>
+            </div>
+
+            <a
+              class="btn btn-primary"
+              href="https://www.google.com/maps/search/?api=1&amp;query=Maurin%20871%20Este%2C%20Pocito%2C%20San%20Juan%2C%20Argentina"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir Google Maps <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <a
+            class="location-visual reveal"
+            href="https://www.google.com/maps/search/?api=1&amp;query=Maurin%20871%20Este%2C%20Pocito%2C%20San%20Juan%2C%20Argentina"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Buscar ElevARTE en Google Maps"
+          >
+            <div class="location-visual-top">
+              <span>ELEVARTE DANZA &amp; ARTE</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+            <div class="location-pin" aria-hidden="true">
+              <span> E </span>
+            </div>
+            <div class="location-visual-bottom">
+              <span>MAURIN 871 ESTE</span>
+              <span>POCITO, SAN JUAN</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- INSCRIPCIONES Y CONTACTO -->
+      <section class="contact-section section" id="contacto">
+        <div class="container contact-layout">
+          <div class="contact-copy reveal">
+            <div class="section-index">
+              <span>05</span>
+              <span class="index-rule"></span>
+              <span>EL PRÓXIMO PASO</span>
+            </div>
+
+            <h2>Tu historia<br />artística empieza<br /><em>acá.</em></h2>
+            <p>
+              Contanos qué estás buscando. Prepará tu consulta y conocé las
+              propuestas, los horarios y las opciones de inscripción.
+            </p>
+
+            <div class="contact-note">
+              <span class="contact-note-icon" aria-hidden="true">↗</span>
+              <div>
+                <strong>Hablemos de tu próxima clase.</strong>
+                <p>La consulta se prepara para enviarla por WhatsApp.</p>
               </div>
             </div>
+
+            <a
+              class="contact-instagram"
+              href="https://www.instagram.com/elevarte.danzayarte/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Seguinos en Instagram <span aria-hidden="true">↗</span>
+            </a>
           </div>
 
-          <div class="contact-card">
-            <h3>Quiero consultar o inscribirme</h3>
-
-            <p>Completá este formulario para preparar tu consulta.</p>
+          <div class="contact-card reveal">
+            <div class="form-heading">
+              <span class="form-kicker">ELEVARTE / CONTACTO</span>
+              <h3>Hablemos de vos.</h3>
+              <p>Completá el formulario y prepará tu consulta.</p>
+            </div>
 
             <form id="enrollmentForm">
-              <label for="nombre">Nombre y apellido</label>
-              <input
-                id="nombre"
-                name="nombre"
-                type="text"
-                autocomplete="name"
-                placeholder="Tu nombre"
-                required
-              />
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="nombre">Nombre y apellido</label>
+                  <input
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="Tu nombre"
+                    maxlength="100"
+                    required
+                  />
+                </div>
 
-              <label for="edad">Edad del alumno/a</label>
-              <input
-                id="edad"
-                name="edad"
-                type="number"
-                min="1"
-                max="110"
-                placeholder="Edad"
-                required
-              />
+                <div class="form-field">
+                  <label for="edad">Edad del alumno/a</label>
+                  <input
+                    id="edad"
+                    name="edad"
+                    type="number"
+                    min="1"
+                    max="110"
+                    inputmode="numeric"
+                    placeholder="Edad"
+                    required
+                  />
+                </div>
+              </div>
 
-              <label for="actividad">¿Qué te interesa?</label>
-              <select id="actividad" name="actividad" required>
-                <option value="" selected disabled>Elegí una opción</option>
-                <option value="Danza">Danza</option>
-                <option value="Expresión artística">Expresión artística</option>
-                <option value="Formación y crecimiento">
-                  Formación y crecimiento
-                </option>
-                <option value="Todas las propuestas">
-                  Quiero conocer todas las propuestas
-                </option>
-              </select>
+              <div class="form-field">
+                <label for="actividad">¿Qué te interesa?</label>
+                <select id="actividad" name="actividad" required>
+                  <option value="" selected disabled>Elegí una opción</option>
+                  <option value="Danza">Danza</option>
+                  <option value="Expresión artística">Expresión artística</option>
+                  <option value="Formación y crecimiento">Formación y crecimiento</option>
+                  <option value="Todas las propuestas">Quiero conocer todas las propuestas</option>
+                </select>
+              </div>
 
-              <label for="turno">¿Qué horario preferís?</label>
-              <select id="turno" name="turno" required>
-                <option value="" selected disabled>Elegí una opción</option>
-                <option value="Mañana">Mañana</option>
-                <option value="Tarde">Tarde</option>
-                <option value="Noche">Noche</option>
-                <option value="Tengo flexibilidad">Tengo flexibilidad</option>
-              </select>
+              <div class="form-field">
+                <label for="turno">¿Qué horario preferís?</label>
+                <select id="turno" name="turno" required>
+                  <option value="" selected disabled>Elegí una opción</option>
+                  <option value="Mañana">Mañana</option>
+                  <option value="Tarde">Tarde</option>
+                  <option value="Noche">Noche</option>
+                  <option value="Tengo flexibilidad">Tengo flexibilidad</option>
+                </select>
+              </div>
 
-              <label for="consulta">
-                Mensaje adicional
-                <span class="optional">(opcional)</span>
-              </label>
-
-              <textarea
-                id="consulta"
-                name="consulta"
-                rows="3"
-                placeholder="Por ejemplo: experiencia previa o días disponibles"
-              ></textarea>
+              <div class="form-field">
+                <label for="consulta">
+                  Mensaje adicional <span class="optional">(opcional)</span>
+                </label>
+                <textarea
+                  id="consulta"
+                  name="consulta"
+                  rows="3"
+                  maxlength="1000"
+                  placeholder="Contanos qué necesitás saber..."
+                ></textarea>
+              </div>
 
               <div class="privacy-notice">
-                <p>
-                  <strong>Tu privacidad importa.</strong>
-                  Los datos que completes se incluirán en un mensaje de WhatsApp
-                  para responder tu consulta sobre clases e inscripciones. Podés
-                  revisar el mensaje antes de enviarlo. No envíes información
-                  sensible ni datos que no sean necesarios.
-                </p>
-
                 <label class="privacy-consent" for="privacyConsent">
                   <input
                     id="privacyConsent"
@@ -573,90 +567,75 @@
                   />
                   <span>
                     Leí la
-                    <a
-                      href="privacidad.html"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Política de Privacidad
-                    </a>
-                    y entiendo cómo se utilizarán los datos que proporciono. Si
-                    la consulta incluye datos de un menor, declaro estar
-                    autorizado/a para proporcionarlos.
+                    <a href="privacidad.html" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>
+                    y entiendo que los datos ingresados se incluirán en un
+                    mensaje de WhatsApp. Si proporciono datos de un menor,
+                    declaro estar autorizado/a para hacerlo.
                   </span>
                 </label>
               </div>
 
-              <button class="btn form-submit" type="submit">
-                Consulta por WhatsApp ↗
+              <button class="btn btn-primary form-submit" type="submit">
+                Preparar consulta por WhatsApp
+                <span aria-hidden="true">↗</span>
               </button>
 
-              <p class="note">
-                Al continuar, se abrirá WhatsApp con el mensaje preparado. El
-                envío se realiza desde WhatsApp cuando confirmás la acción.
+              <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+
+              <p class="form-note">
+                WhatsApp se abrirá con el mensaje preparado. Podrás revisarlo
+                antes de enviarlo. No compartas información sensible.
               </p>
             </form>
-
-            <div class="social-row">
-              <a
-                id="instagramLink"
-                href="https://www.instagram.com/elevarte.danzayarte/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Seguir a ElevARTE Danza y Arte en Instagram"
-              >
-                Instagram ↗
-              </a>
-
-              <span aria-hidden="true">·</span>
-              <a href="#clases">Ver clases ↑</a>
-            </div>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-inner">
-        <a class="footer-brand" href="#inicio" aria-label="ElevARTE, inicio">
-          <span class="footer-brand-name">
-            ElevARTE<span class="footer-brand-dot">.</span>
-          </span>
-          <small>DANZA &amp; ARTE</small>
-        </a>
+      <div class="container">
+        <div class="footer-main">
+          <a class="footer-brand" href="#inicio" aria-label="ElevARTE, inicio">
+            <span class="footer-brand-name">ElevARTE<span>.</span></span>
+            <small>DANZA &amp; ARTE</small>
+          </a>
 
-        <p class="footer-copyright">
-          © <span id="year"></span> ElevARTE Danza &amp; Arte. Todos los
-          derechos reservados.
-        </p>
+          <p class="footer-message">
+            El arte de aprender.<br /><em>La libertad de expresarte.</em>
+          </p>
 
-        <nav class="legal-links" aria-label="Información legal">
-          <a href="privacidad.html">Privacidad</a>
-          <a href="cookies.html">Cookies</a>
-          <a href="terminos.html">Términos y condiciones</a>
-        </nav>
-
-        <a class="backtop" href="#inicio">
-          Volver arriba <span aria-hidden="true">↑</span>
-        </a>
+          <a class="backtop" href="#inicio">
+            Volver arriba <span aria-hidden="true">↑</span>
+          </a>
+        </div>
 
         <div class="footer-bottom">
-          <p class="footer-location">Pocito, San Juan, Argentina</p>
-
-          <p class="footer-credit">
-            Desarrollado por
-            <a
-              href="https://www.instagram.com/florecestudio.ar?utm_source=ig_web_button_share_sheet&rpxt=ZDNlZDc0MzIxNw=="
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visitar Instagram de Florece Studio"
-              >@florecestudio.ar <span aria-hidden="true">↗</span></a
-            >
+          <p class="footer-copyright">
+            © <span id="year"></span> ElevARTE Danza &amp; Arte.
+            Todos los derechos reservados.
           </p>
+
+          <nav class="legal-links" aria-label="Información legal">
+            <a href="privacidad.html">Privacidad</a>
+            <a href="cookies.html">Cookies</a>
+            <a href="terminos.html">Términos</a>
+          </nav>
+
+          <p class="footer-location">Pocito, San Juan, Argentina</p>
+        </div>
+
+        <div class="footer-credit">
+          Diseñado por
+          <a
+            href="https://www.instagram.com/florecestudio.ar/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visitar Instagram de Florece Studio"
+          >Florece Studio ↗</a>
         </div>
       </div>
     </footer>
-    <link rel="stylesheet" href="style.css" />
+
     <script src="script.js" defer></script>
   </body>
 </html>

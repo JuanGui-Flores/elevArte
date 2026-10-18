@@ -14,17 +14,17 @@ const INSTAGRAM_URL = "https://www.instagram.com/elevarte.danzayarte/";
 
 document.addEventListener("DOMContentLoaded", () => {
   // ------------------------------------------------
-  // AÑO AUTOMÁTICO EN EL PIE DE PÁGINA
+  // AÑO AUTOMÁTICO
   // ------------------------------------------------
 
   const yearElement = document.getElementById("year");
 
   if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
+    yearElement.textContent = String(new Date().getFullYear());
   }
 
   // ------------------------------------------------
-  // ENLACE DE INSTAGRAM
+  // INSTAGRAM
   // ------------------------------------------------
 
   const instagramLink = document.getElementById("instagramLink");
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------------------------------------
-  // MENÚ PARA CELULARES
+  // MENÚ RESPONSIVE
   // ------------------------------------------------
 
   const menuBtn = document.getElementById("menuBtn");
@@ -76,14 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
       link.addEventListener("click", closeMenu);
     });
 
-    // Cerrar el menú con Escape.
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         closeMenu();
       }
     });
 
-    // Cerrar el menú si se cambia a una pantalla grande.
     window.addEventListener("resize", () => {
       if (window.innerWidth > 800) {
         closeMenu();
@@ -92,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------------------------------------
-  // EFECTO DEL ENCABEZADO AL DESPLAZARSE
+  // ENCABEZADO AL HACER SCROLL
   // ------------------------------------------------
 
   const header = document.querySelector("header");
@@ -104,7 +102,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   updateHeader();
-  window.addEventListener("scroll", updateHeader, { passive: true });
+
+  window.addEventListener("scroll", updateHeader, {
+    passive: true
+  });
 
   // ------------------------------------------------
   // FORMULARIO DE CONSULTAS E INSCRIPCIÓN
@@ -115,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (enrollmentForm) {
     let formStatus = document.getElementById("formStatus");
 
-    // Crear un área de estado accesible si no existe en el HTML.
+    // Crear un mensaje accesible si no existe en el HTML.
     if (!formStatus) {
       formStatus = document.createElement("p");
       formStatus.id = "formStatus";
@@ -125,6 +126,22 @@ document.addEventListener("DOMContentLoaded", () => {
       enrollmentForm.appendChild(formStatus);
     }
 
+    function showFormStatus(message) {
+      if (!formStatus) return;
+
+      formStatus.replaceChildren();
+      formStatus.textContent = message;
+      formStatus.classList.add("is-visible");
+    }
+
+    enrollmentForm.addEventListener("input", () => {
+      if (formStatus) {
+        formStatus.replaceChildren();
+        formStatus.textContent = "";
+        formStatus.classList.remove("is-visible");
+      }
+    });
+
     enrollmentForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
@@ -132,38 +149,39 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Verificar el consentimiento de privacidad, si existe.
+      // Verificar el consentimiento de privacidad.
       const privacyConsent = document.getElementById("privacyConsent");
 
       if (privacyConsent && !privacyConsent.checked) {
-        formStatus.textContent =
-          "Para continuar, tenés que aceptar la política de privacidad.";
+        showFormStatus(
+          "Para continuar, tenés que aceptar la Política de Privacidad."
+        );
 
         privacyConsent.focus();
         return;
       }
 
-      // No enviar a un número de ejemplo.
-      if (
-        !/^\d{10,15}$/.test(WHATSAPP_NUMBER) ||
-        WHATSAPP_NUMBER === "5490000000000"
-      ) {
-        formStatus.textContent =
-          "Falta configurar el número real de WhatsApp de ElevARTE.";
+      // No abrir WhatsApp con un número ficticio.
+      const phoneIsConfigured =
+        /^\d{10,15}$/.test(WHATSAPP_NUMBER) &&
+        WHATSAPP_NUMBER !== "5490000000000";
 
-        alert(
-          "Configurá el número real de WhatsApp en la constante " +
-          "WHATSAPP_NUMBER del archivo script.js."
+      if (!phoneIsConfigured) {
+        showFormStatus(
+          "Falta configurar el número real de WhatsApp de ElevARTE en script.js."
         );
 
         return;
       }
 
-      // Obtener campos de forma segura.
-      const getFieldValue = (id) => {
+      // Leer los campos.
+      function getFieldValue(id) {
         const field = document.getElementById(id);
-        return field && "value" in field ? field.value.trim() : "";
-      };
+
+        return field && "value" in field
+          ? String(field.value).trim()
+          : "";
+      }
 
       const nombre = getFieldValue("nombre");
       const edad = getFieldValue("edad");
@@ -171,10 +189,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const turno = getFieldValue("turno");
       const consulta = getFieldValue("consulta");
 
-      // Construir el mensaje de inscripción.
+      // Comprobar que los datos esenciales estén presentes.
+      if (!nombre || !edad || !actividad || !turno) {
+        showFormStatus(
+          "Revisá los campos obligatorios antes de continuar."
+        );
+
+        return;
+      }
+
+      // Preparar el mensaje de WhatsApp.
       const mensaje = [
-        "Hola, ElevARTE. Quiero consultar por clases e inscripción.",
-        `Nombre: ${nombre}`,
+        "Hola, ElevARTE Danza & Arte. Quiero consultar por clases e inscripción.",
+        "",
+        `Nombre y apellido: ${nombre}`,
         `Edad del alumno/a: ${edad}`,
         `Actividad de interés: ${actividad}`,
         `Horario preferido: ${turno}`,
@@ -187,20 +215,22 @@ document.addEventListener("DOMContentLoaded", () => {
         `https://wa.me/${WHATSAPP_NUMBER}?text=` +
         encodeURIComponent(mensaje);
 
-      formStatus.textContent =
-        "Abriendo WhatsApp para enviar tu consulta...";
-
-      // Abrir WhatsApp sin depender del valor devuelto por window.open.
+      // Abrir WhatsApp desde la acción del usuario.
       const whatsappWindow = window.open(
         whatsappURL,
         "_blank",
         "noopener,noreferrer"
       );
 
-      // Alternativa si el navegador bloquea la nueva pestaña.
-      if (!whatsappWindow) {
-        formStatus.textContent =
-          "Si WhatsApp no se abrió, usá este enlace para continuar.";
+      if (whatsappWindow) {
+        showFormStatus(
+          "WhatsApp se abrió con tu consulta preparada. Revisá el mensaje y confirmá el envío desde WhatsApp."
+        );
+      } else {
+        // Alternativa si el navegador bloquea la nueva pestaña.
+        showFormStatus(
+          "El navegador bloqueó la ventana. Usá el siguiente enlace para continuar:"
+        );
 
         const fallbackLink = document.createElement("a");
         fallbackLink.href = whatsappURL;
@@ -215,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------------------------------------
-  // ANIMACIONES AL DESPLAZARSE (SCROLL REVEAL)
+  // ANIMACIONES AL HACER SCROLL
   // ------------------------------------------------
 
   const reducedMotion = window.matchMedia(
@@ -234,19 +264,18 @@ document.addEventListener("DOMContentLoaded", () => {
     ".step",
     ".contact-copy",
     ".contact-card",
-    ".info-panel"
+    ".local-info-content article"
   ];
 
   const revealElements = document.querySelectorAll(
     revealSelectors.join(", ")
   );
 
-  if (
-    !reducedMotion &&
-    "IntersectionObserver" in window &&
-    revealElements.length > 0
-  ) {
-    // El CSS puede utilizar esta clase para activar los estados iniciales.
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    revealElements.forEach((element) => {
+      element.classList.add("is-visible");
+    });
+  } else if (revealElements.length > 0) {
     document.documentElement.classList.add("js-motion");
 
     revealElements.forEach((element) => {
@@ -288,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------------------------------------
-  // CURSOR PERSONALIZADO PARA COMPUTADORAS
+  // CURSOR PERSONALIZADO PARA ESCRITORIO
   // ------------------------------------------------
 
   const finePointer = window.matchMedia(
@@ -312,13 +341,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let ringX = -100;
     let ringY = -100;
     let animationFrame = null;
-    let pointerInside = false;
 
     function updateCursor() {
       dot.style.left = `${mouseX}px`;
       dot.style.top = `${mouseY}px`;
 
-      // El anillo sigue al cursor con un retraso suave.
       ringX += (mouseX - ringX) * 0.22;
       ringY += (mouseY - ringY) * 0.22;
 
@@ -338,7 +365,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("mousemove", (event) => {
       mouseX = event.clientX;
       mouseY = event.clientY;
-      pointerInside = true;
 
       dot.style.opacity = "1";
       ring.style.opacity = "1";
@@ -349,18 +375,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("mouseleave", () => {
-      pointerInside = false;
       dot.style.opacity = "0";
       ring.style.opacity = "0";
     });
 
     document.addEventListener("mouseenter", () => {
-      pointerInside = true;
       dot.style.opacity = "1";
       ring.style.opacity = "1";
     });
 
-    // Aumentar el anillo sobre enlaces y controles.
     const interactiveSelector = [
       "a",
       "button",
@@ -385,12 +408,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const target = event.target;
       const relatedTarget = event.relatedTarget;
 
+      if (!(target instanceof Element)) return;
+
+      const interactiveElement = target.closest(interactiveSelector);
+
       if (
-        target instanceof Element &&
-        target.closest(interactiveSelector) &&
+        interactiveElement &&
         !(
           relatedTarget instanceof Element &&
-          target.closest(interactiveSelector).contains(relatedTarget)
+          interactiveElement.contains(relatedTarget)
         )
       ) {
         ring.classList.remove("is-active");
@@ -399,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ------------------------------------------------
-  // ENLACES INTERNOS Y NAVEGACIÓN
+  // NAVEGACIÓN INTERNA
   // ------------------------------------------------
 
   window.addEventListener("hashchange", closeMenu);
