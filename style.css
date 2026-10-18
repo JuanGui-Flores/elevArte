@@ -1341,33 +1341,67 @@ footer .legal-links a:hover {
   animation: heroEntrance .9s var(--ease) .12s both;
 }
 
-/* ===================== CURSOR PERSONALIZADO ===================== */
 
-.custom-cursor {
+/* ===================== CURSOR DOT & RING ===================== */
+
+.cursor-dot,
+.cursor-ring {
   position: fixed;
-  z-index: 9999;
   top: 0;
   left: 0;
-  width: 18px;
-  height: 18px;
-  border: 1px solid var(--gold-light);
+  z-index: 99999;
   border-radius: 50%;
-  background: rgba(201, 185, 140, .14);
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, -50%);
-  transition:
-    width .2s ease,
-    height .2s ease,
-    background .2s ease,
-    opacity .2s ease;
+  will-change: left, top;
 }
 
-.custom-cursor.is-active {
+/* Punto central */
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--gold-light);
+}
+
+/* Anillo exterior */
+.cursor-ring {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--gold-light);
+  background: rgba(201, 185, 140, 0.14);
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+/* Expansión sobre elementos interactivos */
+.cursor-ring.is-active {
   width: 34px;
   height: 34px;
-  background: rgba(201, 185, 140, .3);
+  background: rgba(201, 185, 140, 0.3);
+  border-color: var(--gold-light);
 }
+
+/* Ocultar el cursor nativo en computadoras compatibles */
+@media (hover: hover) and (pointer: fine) and (min-width: 801px) {
+  body.custom-cursor,
+  body.custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Respetar la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
 
 /* ===================== TABLET ===================== */
 
