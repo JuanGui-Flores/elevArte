@@ -5,7 +5,7 @@
 // CONFIGURACIÓN DE ELEV ARTE
 // ==================================================
 
-const WHATSAPP_NUMBER = "5490000000000";
+const WHATSAPP_NUMBER = "542645696246";
 const INSTAGRAM_URL = "https://www.instagram.com/elevarte.danzayarte/";
 
 // ==================================================
