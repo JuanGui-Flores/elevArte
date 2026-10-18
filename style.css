@@ -2588,3 +2588,15 @@ html.js-motion .contact-copy.is-visible h2 {
   animation: title-emphasis-enter 1000ms
     var(--ease) 480ms both;
 }
+
+@media (max-width: 768px) {
+  .image-break {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-break {
+    min-height: 280px;
+  }
+}
