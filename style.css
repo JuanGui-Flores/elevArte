@@ -595,7 +595,7 @@ blockquote em,
 .image-break {
   position: relative;
   display: flex;
-  min-height: clamp(180px, 25vw, 320px);
+  min-height: 420px;
   align-items: flex-end;
   overflow: hidden;
   background: var(--brown);
@@ -604,6 +604,8 @@ blockquote em,
 .image-break-photo {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   background-image:
     linear-gradient(0deg, rgba(4, 3, 3, 0.7), transparent 65%),
     url("./images/danza.png");
