@@ -2,7 +2,7 @@
 "use strict";
 
 // ==================================================
-// CONFIGURACIÓN DE ELEV ARTE
+// CONFIGURACIÓN DE ELEVARTE
 // ==================================================
 
 const WHATSAPP_NUMBER = "542645696246";
@@ -13,6 +13,12 @@ const INSTAGRAM_URL = "https://www.instagram.com/elevarte.danzayarte/";
 // ==================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  const html = document.documentElement;
+  const body = document.body;
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
   // ------------------------------------------------
   // AÑO AUTOMÁTICO
   // ------------------------------------------------
@@ -48,19 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
     navLinks.classList.remove("open", "is-open");
     menuBtn.setAttribute("aria-expanded", "false");
     menuBtn.setAttribute("aria-label", "Abrir menú");
-    menuBtn.textContent = "☰";
-    document.body.classList.remove("menu-open");
+    body.classList.remove("menu-open");
   }
 
   if (menuBtn && navLinks) {
     menuBtn.addEventListener("click", () => {
-      const isOpen = !(
-        navLinks.classList.contains("open") ||
-        navLinks.classList.contains("is-open")
-      );
+      const isOpen = menuBtn.getAttribute("aria-expanded") !== "true";
 
-      navLinks.classList.toggle("open", isOpen);
       navLinks.classList.toggle("is-open", isOpen);
+      navLinks.classList.toggle("open", isOpen);
 
       menuBtn.setAttribute("aria-expanded", String(isOpen));
       menuBtn.setAttribute(
@@ -68,8 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isOpen ? "Cerrar menú" : "Abrir menú"
       );
 
-      menuBtn.textContent = isOpen ? "×" : "☰";
-      document.body.classList.toggle("menu-open", isOpen);
+      body.classList.toggle("menu-open", isOpen);
     });
 
     navLinks.querySelectorAll("a").forEach((link) => {
@@ -83,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 800) {
+      if (window.innerWidth > 760) {
         closeMenu();
       }
     });
@@ -93,11 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // ENCABEZADO AL HACER SCROLL
   // ------------------------------------------------
 
-  const header = document.querySelector("header");
+  const header = document.getElementById("siteHeader");
 
   function updateHeader() {
     if (!header) return;
-
     header.classList.toggle("is-scrolled", window.scrollY > 20);
   }
 
@@ -116,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (enrollmentForm) {
     let formStatus = document.getElementById("formStatus");
 
-    // Crear un mensaje accesible si no existe en el HTML.
     if (!formStatus) {
       formStatus = document.createElement("p");
       formStatus.id = "formStatus";
@@ -135,33 +134,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     enrollmentForm.addEventListener("input", () => {
-      if (formStatus) {
-        formStatus.replaceChildren();
-        formStatus.textContent = "";
-        formStatus.classList.remove("is-visible");
-      }
+      if (!formStatus) return;
+
+      formStatus.replaceChildren();
+      formStatus.classList.remove("is-visible");
     });
 
     enrollmentForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      if (!enrollmentForm.reportValidity()) {
-        return;
-      }
+      if (!enrollmentForm.reportValidity()) return;
 
-      // Verificar el consentimiento de privacidad.
-      const privacyConsent = document.getElementById("privacyConsent");
+      const privacyConsent =
+        document.getElementById("privacyConsent");
 
       if (privacyConsent && !privacyConsent.checked) {
         showFormStatus(
           "Para continuar, tenés que aceptar la Política de Privacidad."
         );
-
         privacyConsent.focus();
         return;
       }
 
-      // No abrir WhatsApp con un número ficticio.
       const phoneIsConfigured =
         /^\d{10,15}$/.test(WHATSAPP_NUMBER) &&
         WHATSAPP_NUMBER !== "5490000000000";
@@ -170,11 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
         showFormStatus(
           "Falta configurar el número real de WhatsApp de ElevARTE en script.js."
         );
-
         return;
       }
 
-      // Leer los campos.
       function getFieldValue(id) {
         const field = document.getElementById(id);
 
@@ -189,16 +181,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const turno = getFieldValue("turno");
       const consulta = getFieldValue("consulta");
 
-      // Comprobar que los datos esenciales estén presentes.
       if (!nombre || !edad || !actividad || !turno) {
         showFormStatus(
           "Revisá los campos obligatorios antes de continuar."
         );
-
         return;
       }
 
-      // Preparar el mensaje de WhatsApp.
       const mensaje = [
         "Hola, ElevARTE Danza & Arte. Quiero consultar por clases e inscripción.",
         "",
@@ -215,21 +204,20 @@ document.addEventListener("DOMContentLoaded", () => {
         `https://wa.me/${WHATSAPP_NUMBER}?text=` +
         encodeURIComponent(mensaje);
 
-      // Abrir WhatsApp desde la acción del usuario.
-      const whatsappWindow = window.open(
-        whatsappURL,
-        "_blank",
-        "noopener,noreferrer"
-      );
+      // Abrir WhatsApp como respuesta directa al envío del formulario.
+      const whatsappWindow = window.open(whatsappURL, "_blank");
+
+      if (whatsappWindow) {
+        whatsappWindow.opener = null;
+      }
 
       if (whatsappWindow) {
         showFormStatus(
           "WhatsApp se abrió con tu consulta preparada. Revisá el mensaje y confirmá el envío desde WhatsApp."
         );
       } else {
-        // Alternativa si el navegador bloquea la nueva pestaña.
         showFormStatus(
-          "El navegador bloqueó la ventana. Usá el siguiente enlace para continuar:"
+          "El navegador bloqueó la ventana. Usá el enlace para continuar:"
         );
 
         const fallbackLink = document.createElement("a");
@@ -238,72 +226,160 @@ document.addEventListener("DOMContentLoaded", () => {
         fallbackLink.rel = "noopener noreferrer";
         fallbackLink.textContent = "Abrir WhatsApp";
 
-        formStatus.appendChild(document.createTextNode(" "));
-        formStatus.appendChild(fallbackLink);
+        formStatus.append(document.createTextNode(" "), fallbackLink);
       }
     });
   }
-
 
   // ------------------------------------------------
   // ANIMACIONES AL HACER SCROLL
   // ------------------------------------------------
 
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-  // Incluye los elementos actuales del HTML y los que ya tienen .reveal.
-  const revealElements = document.querySelectorAll([
+  const revealSelector = [
     ".reveal",
     ".hero-copy",
     ".hero-side-note",
+    ".section-index",
+    ".intro-heading",
     ".intro-copy",
+    ".image-break-caption",
     ".section-heading",
     ".class-card",
-    ".schedule-item",
     ".quote-inner",
+    ".schedule-intro",
+    ".schedule-list",
+    ".schedule-item",
+    ".location-copy",
+    ".location-visual",
     ".contact-copy",
     ".contact-card",
-    ".location-copy",
-    ".location-visual"
-  ].join(", "));
+    ".footer-main",
+    ".footer-bottom"
+  ].join(", ");
 
-  if (
-    reducedMotion ||
-    !("IntersectionObserver" in window)
-  ) {
-    revealElements.forEach((element) => {
-      element.classList.add("reveal", "is-visible");
-    });
-  } else {
-    // Evita ocultar el contenido si no hay elementos para observar.
-    if (revealElements.length > 0) {
-      document.documentElement.classList.add("js-motion");
+  const revealElements = [
+    ...new Set(document.querySelectorAll(revealSelector))
+  ];
 
-      revealElements.forEach((element) => {
-        element.classList.add("reveal");
-      });
-
-      const observer = new IntersectionObserver(
-        (entries, currentObserver) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-
-            entry.target.classList.add("is-visible");
-            currentObserver.unobserve(entry.target);
-          });
-        },
-        {
-          threshold: 0.12,
-          rootMargin: "0px 0px -45px 0px"
-        }
-      );
-
-      revealElements.forEach((element) => {
-        observer.observe(element);
-      });
+  // Alternar direcciones según el tipo de sección.
+  const directionalGroups = [
+    {
+      selector: ".intro-heading, .section-heading, .schedule-intro, .location-copy, .contact-copy",
+      direction: "from-left"
+    },
+    {
+      selector: ".intro-copy, .schedule-list, .location-visual, .contact-card",
+      direction: "from-right"
     }
+  ];
+
+  directionalGroups.forEach(({ selector, direction }) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.classList.add("reveal", direction);
+    });
+  });
+
+  // Las tarjetas entran alternando izquierda y derecha.
+  document.querySelectorAll(".class-card").forEach((card, index) => {
+    card.classList.add("reveal");
+    card.classList.add(index % 2 === 0 ? "from-left" : "from-right");
+  });
+
+  // Los elementos de horarios aparecen escalonadamente.
+  document.querySelectorAll(".schedule-item").forEach((item, index) => {
+    item.classList.add("reveal", "from-right");
+    item.style.setProperty("--reveal-delay", `${index * 120}ms`);
+  });
+
+  // Actualizar la lista después de asignar clases.
+  const allRevealElements = [
+    ...new Set([
+      ...revealElements,
+      ...document.querySelectorAll(".reveal")
+    ])
+  ];
+
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    allRevealElements.forEach((element) => {
+      element.classList.add("is-visible");
+    });
+  } else if (allRevealElements.length > 0) {
+    // La clase activa las reglas que ocultan los elementos antes de revelarlos.
+    html.classList.add("js-motion");
+
+    const observer = new IntersectionObserver(
+      (entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("is-visible");
+          currentObserver.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      }
+    );
+
+    allRevealElements.forEach((element) => {
+      observer.observe(element);
+    });
+  }
+
+  // ------------------------------------------------
+  // HERO CINEMATOGRÁFICO Y TÍTULOS
+  // ------------------------------------------------
+
+  const hero = document.querySelector(".hero");
+  const heroCopy = document.querySelector(".hero-copy");
+  const heroTitle = heroCopy?.querySelector("h1");
+
+  if (hero) {
+    hero.classList.add("hero-animated");
+  }
+
+  if (heroCopy) {
+    heroCopy.classList.add("hero-copy-ready");
+  }
+
+  if (heroTitle) {
+    heroTitle.classList.add("hero-title-mask");
+
+    const emphasizedTitle = heroTitle.querySelector("em");
+
+    if (emphasizedTitle) {
+      emphasizedTitle.classList.add("hero-title-emphasis");
+    }
+  }
+
+  // Animar elementos de la portada sin ocultar contenido si falla el observer.
+  const heroElements = [
+    heroCopy,
+    document.querySelector(".hero-side-note"),
+    document.querySelector(".hero-scroll"),
+    document.querySelector(".hero-index")
+  ].filter(Boolean);
+
+  heroElements.forEach((element, index) => {
+    element.style.setProperty(
+      "--hero-delay",
+      `${index * 180 + 100}ms`
+    );
+  });
+
+  // ------------------------------------------------
+  // FOTOGRAFÍAS INTERACTIVAS
+  // ------------------------------------------------
+
+  document.querySelectorAll(".class-card").forEach((card) => {
+    card.classList.add("has-image-motion");
+  });
+
+  const imageBreak = document.querySelector(".image-break");
+
+  if (imageBreak) {
+    imageBreak.classList.add("has-image-motion");
   }
 
   // ------------------------------------------------
@@ -311,107 +387,135 @@ document.addEventListener("DOMContentLoaded", () => {
   // ------------------------------------------------
 
   const finePointer = window.matchMedia(
-    "(hover: hover) and (pointer: fine) and (min-width: 801px)"
+    "(hover: hover) and (pointer: fine) and (min-width: 761px)"
   ).matches;
 
-  if (finePointer && !reducedMotion) {
-    const dot = document.createElement("div");
-    dot.className = "cursor-dot";
-    dot.setAttribute("aria-hidden", "true");
+  if (finePointer) {
+    // Reutilizar los nodos existentes en el HTML.
+    const dot = document.querySelector(".cursor-dot");
+    const ring = document.querySelector(".cursor-ring");
 
-    const ring = document.createElement("div");
-    ring.className = "cursor-ring";
-    ring.setAttribute("aria-hidden", "true");
+    if (dot && ring) {
+      body.classList.add("has-custom-cursor");
 
-    document.body.append(dot, ring);
-    document.body.classList.add("custom-cursor");
+      let mouseX = -100;
+      let mouseY = -100;
+      let ringX = -100;
+      let ringY = -100;
+      let animationFrame = null;
+      let pointerInside = false;
 
-    let mouseX = -100;
-    let mouseY = -100;
-    let ringX = -100;
-    let ringY = -100;
-    let animationFrame = null;
+      function updateCursor() {
+        dot.style.left = `${mouseX}px`;
+        dot.style.top = `${mouseY}px`;
 
-    function updateCursor() {
-      dot.style.left = `${mouseX}px`;
-      dot.style.top = `${mouseY}px`;
+        // Sin retraso animado si el usuario prefiere reducir el movimiento.
+        const easing = reducedMotion ? 1 : 0.19;
 
-      ringX += (mouseX - ringX) * 0.22;
-      ringY += (mouseY - ringY) * 0.22;
+        ringX += (mouseX - ringX) * easing;
+        ringY += (mouseY - ringY) * easing;
 
-      ring.style.left = `${ringX}px`;
-      ring.style.top = `${ringY}px`;
+        ring.style.left = `${ringX}px`;
+        ring.style.top = `${ringY}px`;
 
-      const distance =
-        Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY);
+        const distance =
+          Math.abs(mouseX - ringX) + Math.abs(mouseY - ringY);
 
-      if (distance > 0.5) {
-        animationFrame = requestAnimationFrame(updateCursor);
-      } else {
-        animationFrame = null;
+        if (distance > 0.4 && pointerInside) {
+          animationFrame = requestAnimationFrame(updateCursor);
+        } else {
+          animationFrame = null;
+        }
       }
+
+      function startCursorAnimation() {
+        if (animationFrame === null) {
+          animationFrame = requestAnimationFrame(updateCursor);
+        }
+      }
+
+      document.addEventListener("pointermove", (event) => {
+        if (event.pointerType && event.pointerType !== "mouse") return;
+
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+        pointerInside = true;
+
+        dot.classList.add("is-active");
+        ring.classList.add("is-active");
+
+        startCursorAnimation();
+      });
+
+      document.addEventListener("pointerleave", () => {
+        pointerInside = false;
+        dot.classList.remove("is-active");
+        ring.classList.remove("is-active");
+
+        if (animationFrame !== null) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+      });
+
+      document.addEventListener("pointerenter", () => {
+        pointerInside = true;
+      });
+
+      const interactiveSelector = [
+        "a",
+        "button",
+        "input",
+        "select",
+        "textarea",
+        "label",
+        "[role='button']"
+      ].join(", ");
+
+      document.addEventListener("pointerover", (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        if (event.target.closest(interactiveSelector)) {
+          ring.classList.add("is-hovering");
+        }
+      });
+
+      document.addEventListener("pointerout", (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const interactive = event.target.closest(interactiveSelector);
+        const nextTarget = event.relatedTarget;
+
+        if (
+          interactive &&
+          !(
+            nextTarget instanceof Element &&
+            interactive.contains(nextTarget)
+          )
+        ) {
+          ring.classList.remove("is-hovering");
+        }
+      });
+
+      document.addEventListener("pointerdown", () => {
+        ring.classList.add("is-clicking");
+      });
+
+      document.addEventListener("pointerup", () => {
+        ring.classList.remove("is-clicking");
+      });
+
+      window.addEventListener("blur", () => {
+        pointerInside = false;
+        dot.classList.remove("is-active");
+        ring.classList.remove("is-active", "is-clicking");
+
+        if (animationFrame !== null) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+      });
     }
-
-    document.addEventListener("mousemove", (event) => {
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-
-      dot.style.opacity = "1";
-      ring.style.opacity = "1";
-
-      if (animationFrame === null) {
-        animationFrame = requestAnimationFrame(updateCursor);
-      }
-    });
-
-    document.addEventListener("mouseleave", () => {
-      dot.style.opacity = "0";
-      ring.style.opacity = "0";
-    });
-
-    document.addEventListener("mouseenter", () => {
-      dot.style.opacity = "1";
-      ring.style.opacity = "1";
-    });
-
-    const interactiveSelector = [
-      "a",
-      "button",
-      "input",
-      "select",
-      "textarea",
-      "[role='button']"
-    ].join(", ");
-
-    document.addEventListener("pointerover", (event) => {
-      const target = event.target;
-
-      if (
-        target instanceof Element &&
-        target.closest(interactiveSelector)
-      ) {
-        ring.classList.add("is-hovering");
-      }
-    });
-
-    document.addEventListener("pointerout", (event) => {
-      const target = event.target;
-      const relatedTarget = event.relatedTarget;
-
-      if (!(target instanceof Element)) return;
-
-      const interactiveElement = target.closest(interactiveSelector);
-
-      if (
-        interactiveElement &&
-        !(
-          relatedTarget instanceof Element &&
-          interactiveElement.contains(relatedTarget)
-        )
-      ) {
-        ring.classList.remove("is-hovering");
-      }
-    });
   }
 
   // ------------------------------------------------

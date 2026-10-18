@@ -2087,3 +2087,501 @@ html.js-motion .reveal.is-visible {
   }
 }
 
+
+/* ==================================================
+   ELEV ARTE — ANIMACIONES EDITORIALES
+   Complemento para el style.css existente
+   ================================================== */
+
+/* --------------------------------------------------
+   CURSOR PERSONALIZADO
+   Oculta el cursor nativo solo dentro de la web
+   -------------------------------------------------- */
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  z-index: 2001;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity 180ms ease,
+    width 220ms var(--ease),
+    height 220ms var(--ease),
+    border-color 220ms ease,
+    background 220ms ease,
+    scale 220ms var(--ease);
+}
+
+.cursor-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--salmon);
+}
+
+.cursor-ring {
+  width: 31px;
+  height: 31px;
+  border: 1px solid rgba(233, 168, 152, 0.8);
+  background: transparent;
+}
+
+body.has-custom-cursor,
+body.has-custom-cursor *,
+body.has-custom-cursor *::before,
+body.has-custom-cursor *::after {
+  cursor: none !important;
+}
+
+body.has-custom-cursor .cursor-dot.is-active,
+body.has-custom-cursor .cursor-ring.is-active {
+  opacity: 1;
+}
+
+body.has-custom-cursor .cursor-ring.is-hovering {
+  width: 48px;
+  height: 48px;
+  border-color: var(--blue);
+  background: rgba(190, 224, 230, 0.07);
+}
+
+body.has-custom-cursor .cursor-ring.is-clicking {
+  width: 22px;
+  height: 22px;
+  border-color: var(--salmon);
+  background: rgba(233, 168, 152, 0.2);
+}
+
+/* No mostrar el cursor gráfico en pantallas táctiles. */
+@media (hover: none), (pointer: coarse), (max-width: 760px) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+
+  body,
+  body * {
+    cursor: auto;
+  }
+}
+
+/* --------------------------------------------------
+   REVELADO LATERAL AL HACER SCROLL
+   -------------------------------------------------- */
+
+/* Los elementos siguen visibles si JS no se inicia. */
+.reveal {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Solo se ocultan cuando el sistema de animación está activo. */
+html.js-motion .reveal {
+  opacity: 0;
+  transform: translate3d(0, 38px, 0);
+  filter: blur(3px);
+  transition:
+    opacity 850ms ease,
+    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 850ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+html.js-motion .reveal.from-left {
+  transform: translate3d(-85px, 0, 0);
+}
+
+html.js-motion .reveal.from-right {
+  transform: translate3d(85px, 0, 0);
+}
+
+html.js-motion .reveal.from-bottom {
+  transform: translate3d(0, 65px, 0);
+}
+
+html.js-motion .reveal.from-scale {
+  transform: scale(0.92);
+}
+
+html.js-motion .reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+  will-change: auto;
+}
+
+/* Evita desplazamientos horizontales en pantallas pequeñas. */
+@media (max-width: 760px) {
+  html.js-motion .reveal.from-left {
+    transform: translate3d(-28px, 0, 0);
+  }
+
+  html.js-motion .reveal.from-right {
+    transform: translate3d(28px, 0, 0);
+  }
+
+  html.js-motion .reveal.from-bottom {
+    transform: translate3d(0, 28px, 0);
+  }
+}
+
+/* --------------------------------------------------
+   HERO CINEMATOGRÁFICO
+   -------------------------------------------------- */
+
+.hero-image {
+  transform: scale(1.03);
+  will-change: transform;
+}
+
+.hero.hero-animated .hero-image {
+  animation:
+    hero-cinematic-zoom 12s ease-in-out infinite alternate,
+    hero-image-in 1.5s var(--ease) both;
+}
+
+.hero-copy-ready .eyebrow,
+.hero-copy-ready h1,
+.hero-copy-ready .hero-description,
+.hero-copy-ready .hero-actions {
+  animation: hero-content-enter 950ms var(--ease) both;
+}
+
+.hero-copy-ready .eyebrow {
+  animation-delay: 100ms;
+}
+
+.hero-copy-ready h1 {
+  animation-delay: 260ms;
+}
+
+.hero-copy-ready .hero-description {
+  animation-delay: 430ms;
+}
+
+.hero-copy-ready .hero-actions {
+  animation-delay: 580ms;
+}
+
+.hero-side-note,
+.hero-scroll,
+.hero-index {
+  animation: hero-content-enter 900ms var(--ease) both;
+  animation-delay: var(--hero-delay, 500ms);
+}
+
+/* Revelado de título mediante recorte vertical. */
+.hero-title-mask {
+  clip-path: inset(0 0 100% 0);
+  animation: title-mask-reveal 1150ms cubic-bezier(0.16, 1, 0.3, 1) 280ms both;
+}
+
+.hero-title-mask .hero-title-emphasis {
+  display: inline-block;
+  animation: title-emphasis-enter 1000ms var(--ease) 480ms both;
+}
+
+/* --------------------------------------------------
+   TÍTULOS EDITORIALES CON MÁSCARA
+   -------------------------------------------------- */
+
+.intro-heading h2,
+.section-heading h2,
+.schedule-intro h2,
+.location-copy h2,
+.contact-copy h2 {
+  text-wrap: balance;
+}
+
+html.js-motion .intro-heading.is-visible h2,
+html.js-motion .section-heading.is-visible h2,
+html.js-motion .schedule-intro.is-visible h2,
+html.js-motion .location-copy.is-visible h2,
+html.js-motion .contact-copy.is-visible h2 {
+  animation: editorial-heading-enter 900ms var(--ease) both;
+}
+
+/* --------------------------------------------------
+   FOTOGRAFÍAS INTERACTIVAS
+   -------------------------------------------------- */
+
+/* La imagen se amplía sin modificar el tamaño de la tarjeta. */
+.class-card {
+  isolation: isolate;
+}
+
+.class-card-image {
+  transform: scale(1);
+  transition: transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.class-card.has-image-motion:hover .class-card-image {
+  transform: scale(1.055);
+}
+
+.class-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.class-card-title h3 {
+  transition: transform 450ms var(--ease);
+}
+
+.class-card:hover .class-card-title h3 {
+  transform: translateX(4px);
+}
+
+.class-card .class-symbol {
+  transition:
+    transform 350ms var(--ease),
+    color 350ms ease;
+}
+
+.class-card:hover .class-symbol {
+  color: var(--brown-mid);
+  transform: translate(4px, -4px) rotate(3deg);
+}
+
+.card-link {
+  transition:
+    color 250ms ease,
+    border-color 250ms ease;
+}
+
+.card-link:hover {
+  border-color: var(--brown-mid);
+  color: var(--brown-mid);
+}
+
+/* Movimiento sutil en la banda fotográfica. */
+.image-break-photo {
+  transform: scale(1.01);
+  transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-break.has-image-motion:hover .image-break-photo {
+  transform: scale(1.045);
+}
+
+/* --------------------------------------------------
+   BOTONES Y ENLACES
+   -------------------------------------------------- */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    background 300ms ease,
+    color 300ms ease,
+    border-color 300ms ease,
+    transform 300ms var(--ease);
+}
+
+.btn-primary {
+  border-color: var(--salmon);
+}
+
+.btn-primary:hover {
+  border-color: var(--blue);
+}
+
+.nav-cta,
+.schedule-item > a,
+.contact-note-icon {
+  transition:
+    color 250ms ease,
+    background 250ms ease,
+    border-color 250ms ease,
+    transform 300ms var(--ease);
+}
+
+.nav-cta:hover,
+.schedule-item > a:hover {
+  transform: translateY(-2px);
+}
+
+/* Indicador de scroll animado. */
+.scroll-line {
+  transform-origin: left;
+  animation: scroll-line-pulse 2s ease-in-out infinite;
+}
+
+/* Elementos gráficos de la tarjeta ancha. */
+.wide-art-circle {
+  animation: art-circle-breathe 7s ease-in-out infinite alternate;
+}
+
+.wide-art-letter {
+  transition: transform 800ms var(--ease);
+}
+
+.class-card-wide:hover .wide-art-letter {
+  transform: rotate(-7deg) scale(1.04);
+}
+
+/* Marcador gráfico de ubicación. */
+.location-pin {
+  animation: location-pin-float 4s ease-in-out infinite;
+}
+
+.location-visual:hover .location-pin {
+  box-shadow: 0 0 0 18px rgba(233, 168, 152, 0.08);
+}
+
+/* --------------------------------------------------
+   KEYFRAMES
+   -------------------------------------------------- */
+
+@keyframes hero-cinematic-zoom {
+  from {
+    transform: scale(1.03);
+  }
+
+  to {
+    transform: scale(1.11);
+  }
+}
+
+@keyframes hero-content-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes title-mask-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes title-emphasis-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 35px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes editorial-heading-enter {
+  from {
+    clip-path: inset(0 0 18% 0);
+    transform: translate3d(0, 14px, 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes scroll-line-pulse {
+  0%,
+  100% {
+    transform: scaleX(0.7);
+    opacity: 0.65;
+  }
+
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes art-circle-breathe {
+  from {
+    transform: scale(0.96) rotate(-8deg);
+  }
+
+  to {
+    transform: scale(1.04) rotate(8deg);
+  }
+}
+
+@keyframes location-pin-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -7px;
+  }
+}
+
+/* --------------------------------------------------
+   MOVIMIENTO REDUCIDO Y COMPATIBILIDAD
+   -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero.hero-animated .hero-image,
+  .hero-copy-ready .eyebrow,
+  .hero-copy-ready h1,
+  .hero-copy-ready .hero-description,
+  .hero-copy-ready .hero-actions,
+  .hero-side-note,
+  .hero-scroll,
+  .hero-index,
+  .hero-title-mask,
+  .hero-title-mask .hero-title-emphasis,
+  .wide-art-circle,
+  .location-pin,
+  .scroll-line {
+    animation: none !important;
+  }
+
+  .hero-title-mask {
+    clip-path: none;
+  }
+
+  .class-card-image,
+  .image-break-photo {
+    transition: none;
+  }
+
+  html.js-motion .reveal,
+  html.js-motion .reveal.from-left,
+  html.js-motion .reveal.from-right,
+  html.js-motion .reveal.from-bottom,
+  html.js-motion .reveal.from-scale {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+/* Prioridad para la máscara del título principal */
+.hero-copy-ready h1.hero-title-mask {
+  animation: title-mask-reveal 1150ms
+    cubic-bezier(0.16, 1, 0.3, 1) 280ms both;
+}
+
+.hero-copy-ready h1.hero-title-mask .hero-title-emphasis {
+  animation: title-emphasis-enter 1000ms
+    var(--ease) 480ms both;
+}
