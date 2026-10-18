@@ -595,7 +595,7 @@ blockquote em,
 .image-break {
   position: relative;
   display: flex;
-  min-height: clamp(290px, 43vw, 550px);
+  min-height: clamp(180px, 25vw, 320px);
   align-items: flex-end;
   overflow: hidden;
   background: var(--brown);
